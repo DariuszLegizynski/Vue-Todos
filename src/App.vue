@@ -24,7 +24,13 @@ export default {
 		};
 	},
 	methods: {
-		deleteTodo(id) {
+		async deleteTodo(id) {
+			await fetch(
+				`https://jsonplaceholder.typicode.com/todos/${id}`,
+				{
+					method: "DELETE",
+				}
+			).catch((err) => alert(err.message));
 			this.todos = this.todos.filter(
 				(todo) => todo.id !== id
 			);
