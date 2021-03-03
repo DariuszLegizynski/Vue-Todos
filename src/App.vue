@@ -29,13 +29,26 @@ export default {
 				(todo) => todo.id !== id
 			);
 		},
-		addTodo(newTodo) {
-			this.todos = [...this.todos, newTodo];
+		async addTodo(newTodo) {
+			const { title, completed } = newTodo;
+			const response = await fetch(
+				"https://jsonplaceholder.typicode.com/todos",
+				{
+					method: "POST",
+					headers: {
+						Accept: "application/json",
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({ title, completed }),
+				}
+			).catch((err) => alert(err.message));
+			const content = await response.json();
+			this.todos = [...this.todos, content];
 		},
 	},
 	async mounted() {
 		const response = await fetch(
-			"https://jsonplaceholder.typicode.com/todos?_limit=10"
+			"https://jsonplaceholder.typicode.com/todos?_limit=5"
 		).catch((err) => alert(err.message));
 		const fetchedData = await response
 			.json()
