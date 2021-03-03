@@ -20,23 +20,7 @@ export default {
 	},
 	data() {
 		return {
-			todos: [
-				{
-					id: 1,
-					title: "Todo One",
-					completed: false,
-				},
-				{
-					id: 2,
-					title: "Todo Two",
-					completed: true,
-				},
-				{
-					id: 3,
-					title: "Todo Three",
-					completed: false,
-				},
-			],
+			todos: [],
 		};
 	},
 	methods: {
@@ -48,6 +32,15 @@ export default {
 		addTodo(newTodo) {
 			this.todos = [...this.todos, newTodo];
 		},
+	},
+	async mounted() {
+		const response = await fetch(
+			"https://jsonplaceholder.typicode.com/todos?_limit=10"
+		).catch((err) => alert(err.message));
+		const fetchedData = await response
+			.json()
+			.catch((err) => alert(err.message));
+		this.todos = fetchedData;
 	},
 };
 </script>
